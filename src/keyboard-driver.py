@@ -25,8 +25,7 @@ class KeyboardDriver(arcade.Window):
         self.keyboard_sprite.draw()
 
     def on_key_press(self, key, modifiers):
-        if key == arcade.key.A:
-            self.keyboard_sprite.recent_key.append(key)
+        self.keyboard_sprite.recent_key.append(key)
 
 
 def main():
