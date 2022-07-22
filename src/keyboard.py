@@ -22,7 +22,6 @@ class Keyboard(arcade.Sprite):
                 rtn[tok[0]] = (int(tok[1]), int(tok[2]))
         return rtn
 
-
     def draw(self):
         super().draw()
         if self.recent_key:
@@ -32,19 +31,21 @@ class Keyboard(arcade.Sprite):
 
         if self.last_key:
             # TODO map all possible case
+            # ( https://api.arcade.academy/en/latest/arcade.key.html )
 
             # case 1:  alphabet
+            key2char: int = None
+            if arcade.key.A <= self.last_key <= arcade.key.Z:
+                key2char = chr(self.last_key)
 
-            if self.last_key == arcade.key.A:
-                self.last_key = 'a'
-            elif self.last_key == arcade.key.B:
-                self.last_key = 'b'
-            elif self.last_key == arcade.key.C:
-                self.last_key = 'c'
-            elif self.last_key == arcade.key.D:
-                self.last_key = 'd'
+            # case 2: numeric
+            pass
 
-            (x, y) = self.locations[self.last_key]
+            # case 3: special characters
+            pass
+
+
+            (x, y) = self.locations[key2char]
             arcade.draw_circle_outline(x, y, 15, arcade.color.ORANGE, 3)
 
 
