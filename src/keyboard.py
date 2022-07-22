@@ -9,6 +9,19 @@ class Keyboard(arcade.Sprite):
         super().__init__(filename="../resource/real-keyboard.jpg")
         self.recent_key = []
         self.last_key = None
+        self.locations = self.load_location()   # location:  'a': (210, 273)
+
+    def load_location(self) -> dict:
+        rtn = {}
+        with open('location.dat') as fh:
+            for line in fh:
+                line = line.strip()
+                if len(line) == 0:
+                    continue
+                tok = line.split()
+                rtn[tok[0]] = (int(tok[1]), int(tok[2]))
+        return rtn
+
 
     def draw(self):
         super().draw()
@@ -17,10 +30,21 @@ class Keyboard(arcade.Sprite):
             self.recent_key = self.recent_key[1:]
             print(self.last_key)
 
-        if self.last_key == arcade.key.A:
-            # arcade.draw_circle_outline(100, 100, 25, arcade.color.ORANGE, 3)
-            arcade.draw_circle_outline(210, 273, 15, arcade.color.ORANGE, 3)
-        elif self.last_key == arcade.key.B:
-            arcade.draw_circle_outline(380, 235, 15, arcade.color.ORANGE, 3)
+        if self.last_key:
+            # TODO map all possible case
+
+            # case 1:  alphabet
+
+            if self.last_key == arcade.key.A:
+                self.last_key = 'a'
+            elif self.last_key == arcade.key.B:
+                self.last_key = 'b'
+            elif self.last_key == arcade.key.C:
+                self.last_key = 'c'
+            elif self.last_key == arcade.key.D:
+                self.last_key = 'd'
+
+            (x, y) = self.locations[self.last_key]
+            arcade.draw_circle_outline(x, y, 15, arcade.color.ORANGE, 3)
 
 
