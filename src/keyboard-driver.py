@@ -18,9 +18,10 @@ class KeyboardDriver(arcade.Window):
 
     def setup(self):
         self.keyboard_sprite = keyboard.Keyboard()
-        self.keyboard_sprite.center_x = 400
-        self.keyboard_sprite.center_y = 200
-        self.keyboard_sprite.expected_key.append('u')    # just for fun
+        self.keyboard_sprite.set_location(400, 200)
+
+        # Still just for fun:
+        self.keyboard_sprite.add_expected_key("hello")
 
     def on_draw(self):
         arcade.start_render()
@@ -34,12 +35,11 @@ class KeyboardDriver(arcade.Window):
         self.last_key = key
 
 
-
 def main():
     mygame = KeyboardDriver()
     mygame.setup()
 
-    arcade.run()
+    arcade.run()   # this loop will run 60 frames/sec.
 
 if __name__ == '__main__':
     main()

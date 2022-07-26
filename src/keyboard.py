@@ -23,6 +23,14 @@ class Keyboard(arcade.Sprite):
                 rtn[tok[0]] = (int(tok[1]), int(tok[2]))
         return rtn
 
+    def set_location(self, x:int, y:int):
+        self.center_x = x
+        self.center_y = y
+
+    def add_expected_key(self, keychar: str):
+        for c in keychar:
+            self.expected_key.append(c)
+
     def draw_key_circle(self, x:int, y:int, color:arcade.color, radius:int=15, thickness:int=3):
         arcade.draw_circle_outline(x, y, radius, color, thickness)
 
@@ -34,16 +42,15 @@ class Keyboard(arcade.Sprite):
             self.draw_key_circle(ex + self.center_x, ey + self.center_y, arcade.color.BLUE)
 
         if self.recent_key:
+            # pop the first character.
             self.last_key = self.recent_key[0]
             self.recent_key = self.recent_key[1:]
             print(self.last_key)
 
         if self.last_key:
-            # TODO map all possible case
-            # ( https://api.arcade.academy/en/latest/arcade.key.html )
-
             key2char: int = None
 
+            # Map all the cases:  case 1, 2, 3.
             # case 1:  alphabet
             if arcade.key.A <= self.last_key <= arcade.key.Z:   # python specific, "range-boolean" operators.
                 key2char = chr(self.last_key)
@@ -88,4 +95,10 @@ class Keyboard(arcade.Sprite):
             self.draw_key_circle(x, y, arcade.color.ORANGE, 15, 3)
             #arcade.draw_circle_outline(x, y, 15, arcade.color.LIME_GREEN, 3)
 
+            # POP the matching expected characters
+            if self.expected_key:
+                if self.last_key == self.expected_key[0]:
+                    # user matched key with the expected char.  POP the expected key!
+                    self.expected_key = self.expected_key[1:]     # chop off the first one.
 
+                    # Please read: access list item by index:  https://www.w3schools.com/python/python_lists_access.asp

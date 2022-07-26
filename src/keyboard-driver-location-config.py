@@ -4,6 +4,9 @@ filename:  keyboard-driver.py
 This file is a test driver file, to check keyboard.py visually.
 But, this is only for test.  Not part of our typing-gym.
 
+2022-07-25
+We finished calculation of location of each key, so, we don't need this test for a while.
+
 """
 
 import arcade
