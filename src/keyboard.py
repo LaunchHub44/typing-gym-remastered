@@ -40,6 +40,7 @@ class Keyboard(arcade.Sprite):
             ekey = self.expected_key[0]
             ex, ey = self.offsets[ekey]
             self.draw_key_circle(ex + self.center_x, ey + self.center_y, arcade.color.BLUE)
+            arcade.draw_text(ekey, 400, 500, arcade.color.CORN, 24)
 
         if self.recent_key:
             # pop the first character.
@@ -91,14 +92,15 @@ class Keyboard(arcade.Sprite):
             ( offset_x, offset_y ) = self.offsets[key2char]
             x = self.center_x + offset_x
             y = self.center_y + offset_y
-            #self.draw_key_circle(x,y, arcade.color.LIME_GREEN, 15, 3)
-            self.draw_key_circle(x, y, arcade.color.ORANGE, 15, 3)
-            #arcade.draw_circle_outline(x, y, 15, arcade.color.LIME_GREEN, 3)
 
             # POP the matching expected characters
             if self.expected_key:
-                if self.last_key == self.expected_key[0]:
+                if self.last_key == ord(self.expected_key[0]):
                     # user matched key with the expected char.  POP the expected key!
                     self.expected_key = self.expected_key[1:]     # chop off the first one.
+                    self.draw_key_circle(x, y, arcade.color.ORANGE, 15, 3)
+                    self.last_key = None
+                else:
+                    self.draw_key_circle(x, y, arcade.color.RED, 15, 3)
 
-                    # Please read: access list item by index:  https://www.w3schools.com/python/python_lists_access.asp
+            # Please read: access list item by index:  https://www.w3schools.com/python/python_lists_access.asp

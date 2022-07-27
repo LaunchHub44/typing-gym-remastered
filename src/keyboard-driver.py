@@ -15,29 +15,35 @@ class KeyboardDriver(arcade.Window):
         super().__init__(800, 600, "keyboard test")
         self.keyboard_sprite = None
         self.last_key = None
+        self.score = 0
 
     def setup(self):
         self.keyboard_sprite = keyboard.Keyboard()
         self.keyboard_sprite.set_location(400, 200)
 
-        # Still just for fun:
-        self.keyboard_sprite.add_expected_key("hello")
-
     def on_draw(self):
         arcade.start_render()
         arcade.set_background_color((50, 50, 50))
         self.keyboard_sprite.draw()
+        arcade.draw_text(f"Score: {self.score:06}", 560, 550, arcade.color.WHITE, 24)
         if self.last_key:
-            arcade.draw_text(chr(self.last_key), 400, 500, arcade.color.CORNFLOWER_BLUE, 24, True)
+            arcade.draw_text(chr(self.last_key), 400, 450, arcade.color.CORNFLOWER_BLUE, 24, True)
 
     def on_key_press(self, key, modifiers):
         self.keyboard_sprite.recent_key.append(key)
         self.last_key = key
+        self.score += 10
 
 
 def main():
     mygame = KeyboardDriver()
     mygame.setup()
+
+    # Prefeed everything.
+    #   TODO:  How can we make like a game?  adding random words/keys while playing?
+    mygame.keyboard_sprite.add_expected_key("hello")
+    mygame.keyboard_sprite.add_expected_key(",")
+    mygame.keyboard_sprite.add_expected_key("world")
 
     arcade.run()   # this loop will run 60 frames/sec.
 
