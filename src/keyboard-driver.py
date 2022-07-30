@@ -30,8 +30,7 @@ class KeyboardDriver(arcade.Window):
             arcade.draw_text(chr(self.last_key), 400, 450, arcade.color.CORNFLOWER_BLUE, 24, True)
 
     def on_key_press(self, key, modifiers):
-        self.keyboard_sprite.recent_key.append(key)
-        self.last_key = key
+        self.keyboard_sprite.add_key_queue(key)
         self.score += 10
 
 
@@ -46,6 +45,7 @@ def main():
     mygame.keyboard_sprite.add_expected_key("world")
 
     arcade.run()   # this loop will run 60 frames/sec.
+
 
 if __name__ == '__main__':
     main()

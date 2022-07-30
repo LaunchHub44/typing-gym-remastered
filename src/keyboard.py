@@ -31,6 +31,10 @@ class Keyboard(arcade.Sprite):
         for c in keychar:
             self.expected_key.append(c)
 
+    def add_key_queue(self, keychar: str):
+        self.recent_key.append(keychar)
+        self.last_key = self.recent_key[0]
+
     def draw_key_circle(self, x:int, y:int, color:arcade.color, radius:int=15, thickness:int=3):
         arcade.draw_circle_outline(x, y, radius, color, thickness)
 
