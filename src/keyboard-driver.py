@@ -40,6 +40,10 @@ def main():
 
     # Prefeed everything.
     #   TODO:  How can we make like a game?  adding random words/keys while playing?
+    mygame.keyboard_sprite.add_expected_key("a")
+    mygame.keyboard_sprite.add_expected_key("b")
+    mygame.keyboard_sprite.add_expected_key("c")
+    mygame.keyboard_sprite.add_expected_key("d")
     mygame.keyboard_sprite.add_expected_key("hello")
     mygame.keyboard_sprite.add_expected_key(",")
     mygame.keyboard_sprite.add_expected_key("world")

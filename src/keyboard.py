@@ -11,6 +11,7 @@ class Keyboard(arcade.Sprite):
         self.expected_key: list[str] = []
         self.last_key: arcade.key  = None
         self.offsets = self.load_offset()
+        self.mp3_key_hit = arcade.load_sound("../sound/key-hit.wav")
 
     def load_offset(self) -> dict:
         rtn = {}
@@ -28,12 +29,12 @@ class Keyboard(arcade.Sprite):
         self.center_y = y
 
     def add_expected_key(self, keychar: str):
-        for c in keychar:
-            self.expected_key.append(c)
+        self.expected_key.append(keychar)
 
     def add_key_queue(self, keychar: str):
         self.recent_key.append(keychar)
         self.last_key = self.recent_key[0]
+        arcade.play_sound( self.mp3_key_hit )
 
     def draw_key_circle(self, x:int, y:int, color:arcade.color, radius:int=15, thickness:int=3):
         arcade.draw_circle_outline(x, y, radius, color, thickness)
