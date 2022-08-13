@@ -4,14 +4,22 @@ import arcade
 #   - https://api.arcade.academy/en/latest/api/sprites.html#arcade.Sprite
 #
 
+
 class Keyboard(arcade.Sprite):
     def __init__(self):
         super().__init__(filename="../resource/real-keyboard.jpg")
         self.recent_key: list[arcade.key] = []
         self.expected_key: list[str] = []
-        self.last_key: arcade.key  = None
+        self.expected_word: list[str] = []
+        self.current_word: str = ""
+        self.word_switch_count: int = 0
+        self.last_key: arcade.key = None
         self.offsets = self.load_offset()
+        self.attempts = 0
+
+        self.is_key_hit = False
         self.mp3_key_hit = arcade.load_sound("../sound/key-hit.wav")
+        self.mp3_key_miss = arcade.load_sound("../sound/wrong-key.wav")
 
     def load_offset(self) -> dict:
         rtn = {}
@@ -31,10 +39,15 @@ class Keyboard(arcade.Sprite):
     def add_expected_key(self, keychar: str):
         self.expected_key.append(keychar)
 
+    def add_expected_word(self, word: str):
+        self.expected_word.append(word)
+        for c in word:
+            self.add_expected_key(c)
+
     def add_key_queue(self, keychar: str):
         self.recent_key.append(keychar)
         self.last_key = self.recent_key[0]
-        arcade.play_sound( self.mp3_key_hit )
+        self.is_key_hit = True
 
     def draw_key_circle(self, x:int, y:int, color:arcade.color, radius:int=15, thickness:int=3):
         arcade.draw_circle_outline(x, y, radius, color, thickness)
@@ -45,7 +58,12 @@ class Keyboard(arcade.Sprite):
             ekey = self.expected_key[0]
             ex, ey = self.offsets[ekey]
             self.draw_key_circle(ex + self.center_x, ey + self.center_y, arcade.color.BLUE)
-            arcade.draw_text(ekey, 400, 500, arcade.color.CORN, 24)
+
+            if self.word_switch_count <=0:
+                self.current_word = self.expected_word[0]
+                self.expected_word = self.expected_word[1:]
+                self.word_switch_count = len(self.current_word)   # reset count.
+                arcade.draw_text(self.current_word, 400, 500, arcade.color.CORN, 24)
 
         if self.recent_key:
             # pop the first character.
@@ -102,10 +120,19 @@ class Keyboard(arcade.Sprite):
             if self.expected_key:
                 if self.last_key == ord(self.expected_key[0]):
                     # user matched key with the expected char.  POP the expected key!
+                    self.word_switch_count -= 1
                     self.expected_key = self.expected_key[1:]     # chop off the first one.
                     self.draw_key_circle(x, y, arcade.color.ORANGE, 15, 3)
                     self.last_key = None
+                    if self.is_key_hit:
+                        self.attempts = 0
+                        arcade.play_sound(self.mp3_key_hit)
+                        self.is_key_hit = False
                 else:
                     self.draw_key_circle(x, y, arcade.color.RED, 15, 3)
+                    if self.is_key_hit:
+                        self.attempts += 1
+                        arcade.play_sound(self.mp3_key_miss)
+                        self.is_key_hit = False
 
-            # Please read: access list item by index:  https://www.w3schools.com/python/python_lists_access.asp
+        arcade.draw_text(self.current_word, 400, 500, arcade.color.CORN, 24)

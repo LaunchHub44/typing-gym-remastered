@@ -31,7 +31,16 @@ class KeyboardDriver(arcade.Window):
 
     def on_key_press(self, key, modifiers):
         self.keyboard_sprite.add_key_queue(key)
-        self.score += 10
+        self.keyboard_sprite.attempts += 1
+        if self.keyboard_sprite.last_key == self.keyboard_sprite.expected_key:
+            if self.keyboard_sprite.attempts <= 1:
+                self.score += 10
+            elif self.keyboard_sprite.attempts == 2:
+                self.score += 5
+            elif self.keyboard_sprite.attempts == 3:
+                self.score += 2
+            elif self.keyboard_sprite.attempts > 3:
+                self.score += 1
 
 
 def main():
@@ -40,13 +49,13 @@ def main():
 
     # Prefeed everything.
     #   TODO:  How can we make like a game?  adding random words/keys while playing?
-    mygame.keyboard_sprite.add_expected_key("a")
-    mygame.keyboard_sprite.add_expected_key("b")
-    mygame.keyboard_sprite.add_expected_key("c")
-    mygame.keyboard_sprite.add_expected_key("d")
-    mygame.keyboard_sprite.add_expected_key("hello")
-    mygame.keyboard_sprite.add_expected_key(",")
-    mygame.keyboard_sprite.add_expected_key("world")
+    mygame.keyboard_sprite.add_expected_word("a")
+    mygame.keyboard_sprite.add_expected_word("b")
+    mygame.keyboard_sprite.add_expected_word("c")
+    mygame.keyboard_sprite.add_expected_word("d")
+    mygame.keyboard_sprite.add_expected_word("hello")
+    mygame.keyboard_sprite.add_expected_word(",")
+    mygame.keyboard_sprite.add_expected_word("world")
 
     arcade.run()   # this loop will run 60 frames/sec.
 

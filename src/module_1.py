@@ -6,7 +6,7 @@ import keyboard
 
 class FirstMod(arcade.Window):
     def __init__(self):
-        super().__init__(800, 600, "Typing Gym: Module 1")
+        super().__init__(800, 600, "Typing Gym Remastered: Module 1")
 
     def setup(self):
         self.onscreen_keyboard = keyboard.Keyboard()
