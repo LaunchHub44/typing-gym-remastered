@@ -63,7 +63,7 @@ class Keyboard(arcade.Sprite):
                 self.current_word = self.expected_word[0]
                 self.expected_word = self.expected_word[1:]
                 self.word_switch_count = len(self.current_word)   # reset count.
-                arcade.draw_text(self.current_word, 400, 500, arcade.color.CORN, 24)
+                arcade.draw_text(self.current_word, 200, 480, arcade.color.CORN, 24)
 
         if self.recent_key:
             # pop the first character.
@@ -135,4 +135,4 @@ class Keyboard(arcade.Sprite):
                         arcade.play_sound(self.mp3_key_miss)
                         self.is_key_hit = False
 
-        arcade.draw_text(self.current_word, 400, 500, arcade.color.CORN, 24)
+        arcade.draw_text(self.current_word, 200, 480, arcade.color.CORN, 24)

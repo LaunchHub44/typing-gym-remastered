@@ -35,12 +35,16 @@ class KeyboardDriver(arcade.Window):
         if self.keyboard_sprite.last_key == self.keyboard_sprite.expected_key:
             if self.keyboard_sprite.attempts <= 1:
                 self.score += 10
+                self.keyboard_sprite.attempts = 0
             elif self.keyboard_sprite.attempts == 2:
                 self.score += 5
+                self.keyboard_sprite.attempts = 0
             elif self.keyboard_sprite.attempts == 3:
                 self.score += 2
+                self.keyboard_sprite.attempts = 0
             elif self.keyboard_sprite.attempts > 3:
                 self.score += 1
+                self.keyboard_sprite.attempts = 0
 
 
 def main():
